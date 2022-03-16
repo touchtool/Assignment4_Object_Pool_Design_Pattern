@@ -8,14 +8,14 @@ public class Game extends Observable {
     private int height = 600;
 
     private List<Bullet> bullets;
-    private BulletPool bulletPull;
+    private BulletPool bulletPool;
     private Thread mainLoop;
     private boolean alive;
 
     public Game() {
         alive = true;
         bullets = new ArrayList<Bullet>();
-        bulletPull = new BulletPool();
+        bulletPool = new BulletPool();
         mainLoop = new Thread() {
             @Override
             public void run() {
@@ -27,6 +27,14 @@ public class Game extends Observable {
                         Thread.sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
+                    }
+                    while (true) {
+                        if (System.currentTimeMillis() - bulletPool.getTime() >= 30000 && bulletPool.bullets.size() > 30) {
+                            bulletPool.bullets.remove(0);
+                        }
+                        else {
+                            break;
+                        }
                     }
                 }
             }
@@ -57,7 +65,7 @@ public class Game extends Observable {
         }
         for(Bullet bullet : toRemove) {
             bullets.remove(bullet);
-            bulletPull.releaseBullet(bullet);
+            bulletPool.releaseBullet(bullet);
         }
     }
 
@@ -74,13 +82,13 @@ public class Game extends Observable {
     }
 
     public void burstBullets(int x, int y) {
-        bullets.add(bulletPull.requestBullet(x, y, 1, 0));
-        bullets.add(bulletPull.requestBullet(x, y, 0, 1));
-        bullets.add(bulletPull.requestBullet(x, y, -1, 0));
-        bullets.add(bulletPull.requestBullet(x, y, 0, -1));
-        bullets.add(bulletPull.requestBullet(x, y, 1, 1));
-        bullets.add(bulletPull.requestBullet(x, y, 1, -1));
-        bullets.add(bulletPull.requestBullet(x, y, -1, 1));
-        bullets.add(bulletPull.requestBullet(x, y, -1, -1));
+        bullets.add(bulletPool.requestBullet(x, y, 1, 0));
+        bullets.add(bulletPool.requestBullet(x, y, 0, 1));
+        bullets.add(bulletPool.requestBullet(x, y, -1, 0));
+        bullets.add(bulletPool.requestBullet(x, y, 0, -1));
+        bullets.add(bulletPool.requestBullet(x, y, 1, 1));
+        bullets.add(bulletPool.requestBullet(x, y, 1, -1));
+        bullets.add(bulletPool.requestBullet(x, y, -1, 1));
+        bullets.add(bulletPool.requestBullet(x, y, -1, -1));
     }
 }

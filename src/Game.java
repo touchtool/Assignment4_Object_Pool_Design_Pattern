@@ -28,7 +28,10 @@ public class Game extends Observable {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    System.out.println("before "+bulletPool.bullets.size());
                     while (true) {
+                        System.out.println(bulletPool.getTime());
+                        System.out.println(System.currentTimeMillis());
                         if (System.currentTimeMillis() - bulletPool.getTime() >= 30000 && bulletPool.bullets.size() > 30) {
                             bulletPool.bullets.remove(0);
                         }
@@ -36,6 +39,7 @@ public class Game extends Observable {
                             break;
                         }
                     }
+                    System.out.println("after" + bulletPool.bullets.size());
                 }
             }
         };

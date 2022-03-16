@@ -7,7 +7,7 @@ public class BulletPull {
     List<Bullet> bullets = new ArrayList<Bullet>();
 
     public BulletPull(){
-        int size = 10;
+        int size = 30;
         for (int i = 0; i<size; i++){
             bullets.add(new Bullet(-999, -999, 0, 0));
         }

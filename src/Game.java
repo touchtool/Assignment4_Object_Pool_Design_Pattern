@@ -8,14 +8,14 @@ public class Game extends Observable {
     private int height = 600;
 
     private List<Bullet> bullets;
-    private BulletPull bulletPull;
+    private BulletPool bulletPull;
     private Thread mainLoop;
     private boolean alive;
 
     public Game() {
         alive = true;
         bullets = new ArrayList<Bullet>();
-        bulletPull = new BulletPull();
+        bulletPull = new BulletPool();
         mainLoop = new Thread() {
             @Override
             public void run() {
